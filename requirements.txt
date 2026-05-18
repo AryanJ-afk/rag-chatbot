@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+python-dotenv
+python-multipart
+boto3
+langchain
+langchain-community
+langchain-openai
+langchain-text-splitters
+pypdf
+chromadb
+langchain-chroma
+openai
+tiktoken
+langgraph
