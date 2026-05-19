@@ -2,8 +2,8 @@ from fastapi import FastAPI, UploadFile, HTTPException, File, Form
 from backend.s3_client import upload_file_to_s3
 from backend.ingest import ingest_pdf
 from backend.vector_store import vector_store
-from backend.retriever import retrieve_chunks
-from backend.generator import generate_answer
+from backend.evaluation import score_response
+from backend.metrics_log import log_metrics
 from backend.graph import graph
 from pydantic import BaseModel
 
@@ -41,9 +41,15 @@ def post_query(req: QueryRequest) -> dict:
     
     final_state = graph.invoke(initial_state, config=config)
     
+    try:
+        scores = score_response(req.query, final_state["answer"], final_state["chunks"])
+        log_metrics(req.query, final_state["answer"], scores, req.user_id, req.thread_id)
+    except Exception as e:
+        print(f"[ragas] scoring failed: {e}")
+    
     return {
         "answer": final_state["answer"],
-        "sources": final_state["sources"]
+        "sources": final_state["sources"],
     }
 
 @app.get("/debug/count")

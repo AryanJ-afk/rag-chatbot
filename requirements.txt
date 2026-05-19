@@ -15,3 +15,5 @@ tiktoken
 langgraph
 ragas
 datasets
+streamlit
+requests

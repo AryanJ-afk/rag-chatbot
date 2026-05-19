@@ -25,19 +25,16 @@ class RAGState(TypedDict):
     
 def retriever_node(state: RAGState) -> dict:
     chunks = retrieve_chunks(state["query"], state["user_id"], TOP_K)
-    print(f"[retriever] running")
     return {"chunks": chunks}
 
 def generator_node(state: RAGState) -> dict:
     past_messages = state.get("messages", [])
     result = generate_answer(state["query"], state["chunks"], past_messages, state.get("faithful", True), state.get("feedback"))
     new_messages = [HumanMessage(content=state["query"]), AIMessage(content=result["answer"])]
-    print(f"[generator] running, retry_count={state.get('retry_count', 0)}, faithful={state.get('faithful', 'N/A')}")
     return {"answer": result["answer"], "sources": result["sources"], "messages": new_messages}
 
 def evaluator_node(state: RAGState) -> dict:
     result = evaluate_answer(state["query"], state["answer"], state["chunks"])
-    print(f"[evaluator] faithful={result['faithful']}, retry_count will be {state.get('retry_count', 0) + 1}")
     return {
         "faithful": result["faithful"],
         "feedback": result["feedback"],

@@ -153,6 +153,7 @@ activemq-data/
 .venv
 env/
 venv/
+newvenv
 ENV/
 env.bak/
 venv.bak/
@@ -219,3 +220,6 @@ __marimo__/
 
 # Database
 chroma_db
+
+# Logs
+logs

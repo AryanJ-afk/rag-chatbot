@@ -10,7 +10,7 @@ def generate_answer(query: str, chunks: list[Document], past_messages: list[Base
     
     llm = ChatOpenAI(model='gpt-5-nano', temperature=0)
     
-    system_message = SystemMessage(content="You are a RAG assistant. Answer the question using ONLY the provided context. If the answer isn't in the context, say \"I don't know based on the provided documents\"")
+    system_message = SystemMessage(content="You are a RAG assistant. Answer the question using ONLY the provided context. If the answer isn't in the context, say \"I don't know based on the provided documents\". Answer in complete sentences and avoid bullet points unless explicitly asked.")
     if not faithful:
         human_message = HumanMessage(content=f"Context:\n{context_string}\n\nQuestion: {query}.\n\nNote: Your previous answer was flagged as not faithful to the context. Feedback: {feedback}. Try again, being strictly grounded in the provided sources.")
     else:
