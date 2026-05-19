@@ -15,8 +15,6 @@ def upload_file_to_s3(file_bytes, filename, user_id):
                   Body=file_bytes,
                   ContentType='application/pdf')
     
-    print(f"Uploaded document to s3://{bucket_name}/{s3_key}")
-    
     return {"s3_key": s3_key, "path": f"{bucket_name}/{s3_key}"}
 
 def download_file_from_s3(s3_key) -> bytes:

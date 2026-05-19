@@ -30,7 +30,6 @@ def score_response(query: str, answer: str, chunks: list[Document]) -> dict:
     )
 
     df = result.to_pandas()
-    print(df.columns.tolist())
 
     scores = {
         "faithfulness": float(df.loc[0, "faithfulness"]),

@@ -30,7 +30,7 @@ async def upload(file: UploadFile = File(...), user_id: str = Form(...)):
     response["messaage"] = "success"
     
     response2 = ingest_pdf(response["s3_key"], user_id)
-    print(response2)
+
     return response
 
 @app.post("/query")
