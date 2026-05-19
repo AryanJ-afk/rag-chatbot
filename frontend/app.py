@@ -2,6 +2,9 @@ import streamlit as st
 import requests
 import uuid
 
+import os
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:8000")
+
 st.set_page_config(page_title="Doc Chat", page_icon="📄")
 st.title("Technical Documentation Chatbot")
 
@@ -22,7 +25,7 @@ with st.sidebar:
         files = {"file": (uploaded.name, uploaded.getvalue(), "application/pdf")}
         data = {"user_id": st.session_state.user_id}
         with st.spinner("Uploading and ingesting..."):
-            response = requests.post("http://localhost:8000/upload", files=files, data=data)
+            response = requests.post(f"{BACKEND_URL}/upload", files=files, data=data)
         if response.status_code == 200:
             st.session_state.uploaded_files.append(uploaded.name)
             st.success(f"Uploaded {uploaded.name}")
@@ -63,7 +66,7 @@ if prompt := st.chat_input("Ask a question about your documents"):
                 "user_id": st.session_state.user_id,
                 "thread_id": st.session_state.thread_id,
             }
-            response = requests.post("http://localhost:8000/query", json=payload)
+            response = requests.post(f"{BACKEND_URL}/query", json=payload)
         
         if response.status_code == 200:
             data = response.json()
