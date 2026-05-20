@@ -281,7 +281,6 @@ http://<ec2-ip>:8501
 │   ├── app.py
 │   └── dockerfile
 │
-
 ├── .env.example
 ├── .gitignore
 ├── docker-compose.yml
