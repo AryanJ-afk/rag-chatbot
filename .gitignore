@@ -223,3 +223,6 @@ chroma_db
 
 # Logs
 logs
+
+# .DS_Store
+.DS_Store
